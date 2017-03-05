@@ -3,12 +3,26 @@ import { context, run } from 'f-promise';
 import { Fixtures as GlobalFixtures } from 'spirit.io/test/fixtures';
 import * as sessions from '../../lib';
 import { Session } from '../../lib/models/session';
+import * as sns from 'seneca';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; // Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
 
-const port = 3001;
+const port = 3000;
 const redisPort = process.env.SPIRIT_REDIS_PORT || 6379;
 const redisTestDb = 15;
+
+
+const mocks = {
+    users: function () {
+        let instance = (<any>sns).test();
+        // Define mock messages that the business logic needs
+        instance.add('model:User,action:invoke,name:login', function (msg, reply) {
+            // As this is a mock, the result is hard-coded
+            reply(null, { login: msg.params && msg.params.login })
+        });
+        return instance;
+    }
+}
 
 const config = {
     port: port,
@@ -29,13 +43,10 @@ const config = {
             ttl: 12000
         }
     },
-    services: {
-        'sio-users': {
-            host: 'localhost',
-            port: 3000,
-            type: 'http'
-        }
+    'services-mock': {
+        'sio-users': mocks.users
     }
+
 
 };
 

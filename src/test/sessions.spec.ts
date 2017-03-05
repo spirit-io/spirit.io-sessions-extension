@@ -35,6 +35,30 @@ describe('Sessions tests:', () => {
         cookies.push(resp.headers['set-cookie'][0]);
     });
 
+    it('Authentication with bad auth header should fail', () => {
+        let resp = Fixtures.post('/login', null, {
+            authorization: 'Basic badstring'
+        });
+        let body = JSON.parse(resp.body);
+        expect(resp.status).to.equal(401);
+        expect(body.$diagnoses).to.be.a('array');
+        expect(body.$diagnoses.length).to.equal(1);
+        expect(body.$diagnoses[0].$severity).to.equal("error");
+        expect(body.$diagnoses[0].$message).to.equal("Authorization required");
+    });
+
+    it('Authentication with empty auth header should fail', () => {
+        let resp = Fixtures.post('/login', null, {
+            authorization: 'Basic '
+        });
+        let body = JSON.parse(resp.body);
+        expect(resp.status).to.equal(401);
+        expect(body.$diagnoses).to.be.a('array');
+        expect(body.$diagnoses.length).to.equal(1);
+        expect(body.$diagnoses[0].$severity).to.equal("error");
+        expect(body.$diagnoses[0].$message).to.equal("Authorization required");
+    });
+
     it('Sessions count should be ok after two succesful login', () => {
         expect(Session.all().length).to.equal(2);
     });
@@ -94,5 +118,16 @@ describe('Sessions tests:', () => {
         expect(body.$diagnoses.length).to.equal(1);
         expect(body.$diagnoses[0].$severity).to.equal("error");
         expect(body.$diagnoses[0].$message).to.equal("Session id not found. No session destroyed");
+    });
+
+    it('Get session details should work', () => {
+        let cookie = cookies[0]
+        let sid = cookie.match(/s%3A(.*)\./)[1];
+        let resp = Fixtures.get('/api/v1/session/' + sid, {
+            cookie: cookie
+        });
+        let body = JSON.parse(resp.body);
+        expect(resp.status).to.equal(200);
+        expect(body.user).to.equal('admin');
     });
 });
