@@ -1,0 +1,18 @@
+{
+    "include": [
+      "lib/*.js",
+      "lib/**/*.js"
+    ],
+    "exclude": [
+      "lib/**/index.js"
+    ],
+    "extension": [
+      ".js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": true,
+    "instrument": true
+}

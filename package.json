@@ -1,0 +1,55 @@
+{
+  "name": "spirit.io-sessions",
+  "version": "1.0.0",
+  "description": "Sessions management extension using spirit.io framework",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server",
+    "prepublish": "rm -rf lib && rm -Rf test && tsc -p src",
+    "test": "tsc -p src && node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/_mocha --opts mocha.opts --seneca.log.quiet",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spirit-io/spirit.io-sessions.git"
+  },
+  "keywords": [
+    "spirit",
+    "sessions",
+    "typescript"
+  ],
+  "author": "Teddy Chambard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spirit-io/spirit.io-sessions/issues"
+  },
+  "homepage": "https://github.com/spirit-io/spirit.io-sessions#readme",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "connect-redis": "^3.2.0",
+    "cookie-parser": "^1.4.3",
+    "express-session": "^1.14.2",
+    "f-promise": "^1.0.4",
+    "mz": "^2.6.0",
+    "seneca-redis-store": "^1.1.0",
+    "spirit.io": "^1.0.9"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/chai-http": "0.0.29",
+    "@types/connect-redis": "0.0.5",
+    "@types/express": "^4.0.34",
+    "@types/express-session": "0.0.32",
+    "@types/mocha": "^2.2.39",
+    "@types/mongoose": "^4.7.2",
+    "@types/node": "^6.0.51",
+    "bluebird": "^3.4.7",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "coveralls": "^2.11.14",
+    "f-mocha": "^1.0.2",
+    "f-streams": "^1.0.8",
+    "mocha": "^3.2.0",
+    "nyc": "^8.3.1"
+  }
+}
