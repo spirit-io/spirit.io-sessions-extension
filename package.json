@@ -1,5 +1,5 @@
 {
-  "name": "spirit.io-sessions",
+  "name": "spirit.io-sessions-extension",
   "version": "1.0.0",
   "description": "Sessions management extension using spirit.io framework",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/spirit-io/spirit.io-sessions.git"
+    "url": "git+https://github.com/spirit-io/spirit.io-sessions-extension.git"
   },
   "keywords": [
     "spirit",
@@ -21,9 +21,9 @@
   "author": "Teddy Chambard",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/spirit-io/spirit.io-sessions/issues"
+    "url": "https://github.com/spirit-io/spirit.io-sessions-extension/issues"
   },
-  "homepage": "https://github.com/spirit-io/spirit.io-sessions#readme",
+  "homepage": "https://github.com/spirit-io/spirit.io-sessions-extension#readme",
   "dependencies": {
     "bluebird": "^3.4.7",
     "connect-redis": "^3.2.0",
