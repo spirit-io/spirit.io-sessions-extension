@@ -163,7 +163,7 @@ export function extend(server: Server) {
         run(() => {
             let usr = req.session['user'];
             if (!usr) {
-                res.json({
+                res.status(500).json({
                     $diagnoses: [{
                         $severity: 'error',
                         $message: `Logout failed. No session found.`

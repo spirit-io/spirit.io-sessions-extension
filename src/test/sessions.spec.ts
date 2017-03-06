@@ -18,6 +18,23 @@ describe('Sessions tests:', () => {
     });
 
     let cookies = [];
+
+    it('Authentication without any credentials should fail', () => {
+        let resp = Fixtures.post('/login', null);
+        expect(resp.status).to.equal(401);
+        expect(resp.headers).to.have.property('www-authenticate', 'Basic');
+    });
+
+    it('Logout without session set should fail', () => {
+        let resp = Fixtures.get('/logout');
+        expect(resp.status).to.equal(500);
+        let body = JSON.parse(resp.body);
+        expect(body.$diagnoses).to.be.a('array');
+        expect(body.$diagnoses.length).to.equal(1);
+        expect(body.$diagnoses[0].$severity).to.equal("error");
+        expect(body.$diagnoses[0].$message).to.equal("Logout failed. No session found.");
+    });
+
     it('Authentication with correct credentials should work', () => {
         const auth = 'Basic ' + new Buffer('admin:admin', 'utf8').toString('base64');
         let resp = Fixtures.post('/login', null, {
@@ -129,5 +146,17 @@ describe('Sessions tests:', () => {
         let body = JSON.parse(resp.body);
         expect(resp.status).to.equal(200);
         expect(body.user).to.equal('admin');
+    });
+
+    it('Logout with session set should succeed', () => {
+        let resp = Fixtures.get('/logout', {
+            cookie: cookies[0]
+        });
+        expect(resp.status).to.equal(200);
+        let body = JSON.parse(resp.body);
+        expect(body.$diagnoses).to.be.a('array');
+        expect(body.$diagnoses.length).to.equal(1);
+        expect(body.$diagnoses[0].$severity).to.equal("info");
+        expect(body.$diagnoses[0].$message).to.equal("User 'admin' logged out successfully");
     });
 });
